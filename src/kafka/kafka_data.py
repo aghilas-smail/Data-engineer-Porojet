@@ -24,7 +24,9 @@ import logging
 # def to get the lastest timestamp.
 
 def get_latest_timestamp():
-   
+    """
+    Gets the latest timestamp from the 
+    """
     
     with open(Path, "r") as file: # Open the json file
         data = json.load(file)
@@ -32,3 +34,10 @@ def get_latest_timestamp():
             return data["last_processed"]
         else:
             return datetime.datetime.min
+        
+# Def to update the json file with the lastest timestamp
+
+def update_last_processed_json(data: List[dict]):
+    publication_dates_as_timestamps = [
+        datetime.
+    ]
