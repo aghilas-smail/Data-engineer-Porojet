@@ -52,9 +52,9 @@ def update_last_processed_json(data: List[dict]):
 def get_all_data(last_processed_timestamp: datetime.datetime) ->List[dict]:
     n_results = 0
     full_data = []
-    while true:
+    while True:
         url = URL_API.format(last_processed_timestamp, n_results)
-        response = response.get(url)
+        response = requests.get(url)
         data = response.json()
         current_results = data["results"]
         full_data.extend(current_results)
@@ -65,3 +65,6 @@ def get_all_data(last_processed_timestamp: datetime.datetime) ->List[dict]:
     logging.info(f"Got {n_results} result from the API !!")
     
     return full_data
+
+def deduplicate_data(data: List[dict]) -> List[dict]:
+    return list({v["reference_fiche"]: v for v in data}.values())
