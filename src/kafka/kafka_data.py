@@ -54,3 +54,14 @@ def get_all_data(last_processed_timestamp: datetime.datetime) ->List[dict]:
     full_data = []
     while true:
         url = URL_API.format(last_processed_timestamp, n_results)
+        response = response.get(url)
+        data = response.json()
+        current_results = data["results"]
+        full_data.extend(current_results)
+        n_results += len(current_results)
+        n_results = min(offsetlimit, n_results)
+        if len(current_results) < Limit:
+            break # We stop the execution.
+    logging.info(f"Got {n_results} result from the API !!")
+    
+    return full_data
