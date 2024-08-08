@@ -68,3 +68,16 @@ def get_all_data(last_processed_timestamp: datetime.datetime) ->List[dict]:
 
 def deduplicate_data(data: List[dict]) -> List[dict]:
     return list({v["reference_fiche"]: v for v in data}.values())
+
+
+def get_data_with_query() -> List[dict]:
+    """
+    Returns :
+        List[dict]: A list of dictionaries containing the unique data retrieved from the API.
+    """
+    last_processed = get_latest_timestamp()
+    full_data = get_all_data(last_processed)
+    full_data = deduplicate_data(full_data)
+    if full_data:
+        update_last_processed_json(full_data)
+    return full_data
