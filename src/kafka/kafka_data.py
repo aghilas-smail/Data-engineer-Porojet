@@ -81,3 +81,11 @@ def get_data_with_query() -> List[dict]:
     if full_data:
         update_last_processed_json(full_data)
     return full_data
+
+def process_data(row):
+    # get and process the data
+    data_kafka = {}
+    for i in DB_FIELDS:
+        data_kafka[i] = row.get(i, None)
+    return data_kafka
+
