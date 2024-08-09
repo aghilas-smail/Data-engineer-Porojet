@@ -89,3 +89,19 @@ def process_data(row):
         data_kafka[i] = row.get(i, None)
     return data_kafka
 
+def create_kafka_producer():
+    """
+    create the kafka procedure object
+    """
+    
+    try:
+        procedur = KafkaProducer(bootstrap_servers=["kafak:9092"])
+    except kafka.errors.NoBrokersAvailable:
+        logging.info(
+            "test"
+        )
+        procedur = KafkaProducer(bootstrap_servers=["localhost:9094"])
+    
+    return procedur
+
+
