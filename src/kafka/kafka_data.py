@@ -105,3 +105,13 @@ def create_kafka_producer():
     return procedur
 
 
+def stream():
+    producer = create_kafka_producer()
+    results = get_data_with_query()
+    kafka_data_full = map(process_data, results)
+    for kafka_data in kafka_data_full:
+        producer.send("rappel_conso", json.dumps(kafka_data).encode("utf-8"))
+      
+  
+if __name__ == "__main__":
+    stream()      
