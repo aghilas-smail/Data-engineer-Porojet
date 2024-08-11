@@ -77,3 +77,14 @@ def start_streaming(df_parsed, spark):
         .strart()
         
     return query.awaitTerminantion()
+
+
+def write_to_postgres():
+    spark = create_spark_session()
+    df = create_initial_dataframe(spark)
+    df_final = create_final_datafram(df)
+    start_streaming(df_final, spark=spark)
+    
+    
+if __name__ == "__main__":
+    write_to_postgres
