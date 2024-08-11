@@ -42,3 +42,5 @@ with DAG(
         network_mode="airflow-kakfa",
         dag=dag,
     )   
+    
+    kafka_stream_task >> spark_stream_task 
