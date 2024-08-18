@@ -15,7 +15,7 @@ host = "localhost"
 conn  = psycopg2.connect(dbname=dbname, user=user, password=password, host=host)
 cur = conn.cursor()
 
-
+# Make connection to the database
 def try_execut_sql(sql: str):
     try:
         cur.execute(sql)
@@ -25,6 +25,7 @@ def try_execut_sql(sql: str):
         print(f"Couldn't execute {sql} due to exception: {e}")
         conn.rollback()
         
+# Function to update the data base with the new columns
 def alter_table():
     primary_key_sql = f"""
     ALTER TABLE rappel_conso
