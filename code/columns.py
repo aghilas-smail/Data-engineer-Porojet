@@ -1,6 +1,8 @@
 import os 
+import sys
 import psycopg2
 
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from src.data import DB_FIELDS
 
 # Data base parameters
@@ -25,6 +27,22 @@ def try_execut_sql(sql: str):
         print(f"Couldn't execute {sql} due to exception: {e}")
         conn.rollback()
         
+def create_table():
+    create_table_sql = f"""
+    CREATE TABLE rappel_conso 
+        {DB_FIELDS[0]} text PRIMARY KEY,
+    )
+    """
+    for field in DB_FIELDS[1:-1]:
+        column_sql = f"{field} text, \n"
+        create_table_sql += column_sql
+    
+    create_table_sql += f"{DB_FIELDS[-1]} text \n" + ");"
+    try_execut_sql(create_table_sql)
+    cur.close()
+    conn.close()
+    
+    
 # Function to update the data base with the new columns
 def alter_table():
     primary_key_sql = f"""
