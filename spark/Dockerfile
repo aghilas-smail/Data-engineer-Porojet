@@ -1,13 +1,13 @@
 FROM bitnami/spark:latest
 
-USER root
+# USER root
 
 #RUN pip install --upgrade pip
 
 WORKDIR /opt/bitnami/spark
 
-RUN pip install py4j==0.10.9.7
-
+# RUN pip install py4j==0.10.9.7
+RUN pip install py4j
 
 #COPY ./jars ./jars
 COPY ./src/spark_pgsql/spark_streaming.py ./spark_streaming.py

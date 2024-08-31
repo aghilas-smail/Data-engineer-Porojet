@@ -29,9 +29,8 @@ def try_execut_sql(sql: str):
         
 def create_table():
     create_table_sql = f"""
-    CREATE TABLE rappel_conso 
+    CREATE TABLE rappel_conso_table( 
         {DB_FIELDS[0]} text PRIMARY KEY,
-    )
     """
     for field in DB_FIELDS[1:-1]:
         column_sql = f"{field} text, \n"
@@ -43,23 +42,23 @@ def create_table():
     conn.close()
     
     
-# Function to update the data base with the new columns
-def alter_table():
-    primary_key_sql = f"""
-    ALTER TABLE rappel_conso
-    ADD COLUMN KEY (DB_FIELDS[0]);
-    """
-    try_execut_sql(primary_key_sql)
-    for field in DB_FIELDS[1:]:
-        alter_table_sql = f"""
-        ALTER TABLE rapport_conso
-        ADD COLUMN {field} text;
-        """
-        try_execut_sql(alter_table_sql)
+# # Function to update the data base with the new columns
+# def alter_table():
+#     primary_key_sql = f"""
+#     ALTER TABLE rappel_conso
+#     ADD COLUMN KEY (DB_FIELDS[0]);
+#     """
+#     try_execut_sql(primary_key_sql)
+#     for field in DB_FIELDS[1:]:
+#         alter_table_sql = f"""
+#         ALTER TABLE rapport_conso
+#         ADD COLUMN {field} text;
+#         """
+#         try_execut_sql(alter_table_sql)
         
-    cur.close()
-    conn.close()
+#     cur.close()
+#     conn.close()
     
     
 if __name__ == "__main__":
-    alter_table()
+    create_table()
