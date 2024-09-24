@@ -12,7 +12,7 @@ from src.data import(
     offsetlimit,
 )
 
-
+import kafka.errors
 import json
 import datetime
 import requests # pip install requests
@@ -20,6 +20,7 @@ from kafka import KafkaProducer
 from typing import List
 import logging
 
+logging.basicConfig(format="%(asctime)s - %(message)s", level=logging.INFO, force=True)
 
 # def to get the lastest timestamp.
 
@@ -53,6 +54,8 @@ def get_all_data(last_processed_timestamp: datetime.datetime) ->List[dict]:
     n_results = 0
     full_data = []
     while True:
+        # The publication date must be greater than the last processed timestamp and the offset (n_results)
+        # corresponds to the number of results already processed.
         url = URL_API.format(last_processed_timestamp, n_results)
         response = requests.get(url)
         data = response.json()
@@ -62,6 +65,17 @@ def get_all_data(last_processed_timestamp: datetime.datetime) ->List[dict]:
         n_results = min(offsetlimit, n_results)
         if len(current_results) < Limit:
             break # We stop the execution.
+        
+        if n_results + Limit >= offsetlimit:
+            # If it is the case, change the last_processed_timestamp parameter to the date_de_publication
+            # of the last retrieved result, minus one day. In case of duplicates, they will be filtered
+            # in the deduplicate_data function. We also reset n_results (or the offset parameter) to 0.
+            last_timestamp = current_results[-1]["date_de_publication"]
+            timestamp_as_date = datetime.datetime.strptime(last_timestamp, "%Y-%m-%d")
+            timestamp_as_date = timestamp_as_date - datetime.timedelta(days=1)
+            last_processed_timestamp = timestamp_as_date.strftime("%Y-%m-%d")
+            n_results = 0
+            
     logging.info(f"Got {n_results} result from the API !!")
     
     return full_data
