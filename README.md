@@ -8,12 +8,20 @@ Tous ces outils seront créés et exécutés à l’aide de Docker, et plus pré
 
 ![1726132869607](image/README/1726132869607.png)
 
-
-
-
 * Le répertoire airflow contient un Dockerfile personnalisé pour configurer airflow et un répertoire dags pour créer et planifier les tâches.
 * Le répertoire data contient le fichier last_processed.json qui est crucial pour la tâche de streaming Kafka. De plus amples détails sur son rôle seront fournis dans la section Kafka.
 * Le fichier docker-compose-airflow.yaml définit tous les services requis pour exécuter airflow.
 * Le fichier docker-compose.yaml spécifie les services Kafka et inclut un docker-proxy. Ce proxy est essentiel pour exécuter des tâches Spark via un docker-operator dans Airflow, un concept qui sera développé plus tard.
 * Le répertoire spark contient un Dockerfile personnalisé pour la configuration de spark.
 * src contient les modules python nécessaires à l'exécution de l'application.
+
+
+![1727227480681](image/README/1727227480681.png)
+
+
+
+![1727227511891](image/README/1727227511891.png)
+
+
+
+![1727228890825](image/README/1727228890825.png)
